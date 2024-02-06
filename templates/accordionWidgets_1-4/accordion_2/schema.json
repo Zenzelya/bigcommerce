@@ -1,0 +1,236 @@
+{
+  "name": "Accordion 2",
+  "template": "{{#or heading description (length accordionItems)}}\n    <div class=\"widget-custom-accordion\"\n         {{#or enableMaxWidth enableIndent}}\n            style=\"\n                {{#if enableMaxWidth}}\n                    margin: 0 auto; width: 100%; max-width: {{sectionMaxWith.value}}px;\n                {{/if}}\n                {{#if enableIndent}}\n                    padding: {{sectionPadding.top.value}}px {{sectionPadding.right.value}}px {{sectionPadding.bottom.value}}px {{sectionPadding.left.value}}px;\n                {{/if}}\n            \"\n         {{/or}}\n    >\n        {{#or heading description}}\n            <header class=\"custom-accordion__header\">\n                {{#if heading}}\n                    <{{tagType}} class=\"custom-accordion__heading\"\n                        style=\"color: {{headingColor}};\n                        text-align: {{headingAlignment.horizontal}};\n                        font-size: {{headingFontSize.value}}px\"\n                    >\n                        {{{heading}}}\n                    </{{~tagType~}}>\n                {{/if}}\n                {{#if description}}\n                    <div class=\"custom-accordion__description\"\n                       style=\"color: {{descriptionColor}};\n                       text-align: {{descriptionAlignment.horizontal}};\n                       font-size: {{descriptionFontSize.value}}{{descriptionFontSize.type}}\"\n                    >\n                        {{{description}}}\n                    </div>\n                {{/if}}\n            </header>\n        {{/or}}\n\n        {{#if (length accordionItems)}}\n            <div class=\"custom-accordion js-toggle-container\" data-accordion-mode=\"{{accordionType}}\">\n                {{#each accordionItems}}\n                    {{#all heading content}}\n                        <div class=\"custom-accordion__item js-toggle-item\"\n                             {{#if ../../enableBorder }} style=\"border-bottom: 1px solid #323232\" {{/if}}\n                        >\n                            <button class=\"custom-accordion__item-toggler js-toggle-button\" aria-label=\"Open accordion\">\n                                {{{heading}}}\n                            </button>\n                            <div class=\"custom-accordion__item-content js-toggle-content\">\n                                {{{content}}}\n                            </div>\n                        </div>\n                    {{else}}\n                        {{#if heading}}\n                            <h3 class=\"custom-accordion__item-heading\">{{{heading}}}</h3>\n                        {{/if}}\n                    {{/all}}\n                {{/each}}\n            </div>\n        {{/if}}\n    </div>\n{{/or}}\n",
+  "schema": [
+    {
+      "type": "tab",
+      "label": "Section settings",
+      "sections": [
+        {
+          "settings": [
+            {
+              "type": "boolean",
+              "label": "Set section Max. width",
+              "id": "enableMaxWidth",
+              "default": false
+            },
+            {
+              "type": "number",
+              "label": "Section max width (px)",
+              "id": "sectionMaxWith",
+              "default": {
+                "value": 998,
+                "type": "px"
+              },
+              "typeMeta": {
+                "parseType": "integer"
+              },
+              "conditional": {
+                "key": "enableMaxWidth",
+                "operator": "IN",
+                "value": [
+                  "true",
+                  true
+                ]
+              }
+            },
+            {
+              "type": "boolean",
+              "label": "Set section indent",
+              "id": "enableIndent",
+              "default": false
+            },
+            {
+              "type": "boxModel",
+              "label": "Section padding",
+              "id": "sectionPadding",
+              "default": {
+                "top": {
+                  "value": "100",
+                  "type": "px"
+                },
+                "right": {
+                  "value": "0",
+                  "type": "px"
+                },
+                "bottom": {
+                  "value": "100",
+                  "type": "px"
+                },
+                "left": {
+                  "value": "0",
+                  "type": "px"
+                }
+              },
+              "conditional": {
+                "key": "enableIndent",
+                "operator": "IN",
+                "value": [
+                  "true",
+                  true
+                ]
+              }
+            },
+            {
+              "type": "select",
+              "label": "Accordion type",
+              "id": "accordionType",
+              "typeMeta": {
+                "selectOptions": [
+                  {
+                    "label": "Multiple",
+                    "value": "multiple"
+                  },
+                  {
+                    "label": "Single",
+                    "value": "single"
+                  }
+                ]
+              },
+              "default": "single"
+            },
+            {
+              "type": "boolean",
+              "label": "Accordion item border",
+              "id": "enableBorder",
+              "default": false
+            },
+            {
+              "type": "select",
+              "label": "Heading type",
+              "id": "tagType",
+              "typeMeta": {
+                "selectOptions": [
+                  {
+                    "label": "H1",
+                    "value": "h1"
+                  },
+                  {
+                    "label": "H2",
+                    "value": "h2"
+                  },
+                  {
+                    "label": "H3",
+                    "value": "h3"
+                  },
+                  {
+                    "label": "H4",
+                    "value": "h4"
+                  }
+                ]
+              },
+              "default": "h2"
+            },
+            {
+              "type": "color",
+              "label": "Color",
+              "id": "headingColor",
+              "default": "rgba(32,32,32,1)"
+            },
+            {
+              "type": "number",
+              "label": "Font size",
+              "id": "headingFontSize",
+              "default": {
+                "value": 36,
+                "type": "px"
+              },
+              "typeMeta": {
+                "parseType": "integer"
+              }
+            },
+            {
+              "type": "alignment",
+              "label": "Alignment",
+              "id": "headingAlignment",
+              "default": {
+                "horizontal": "center"
+              },
+              "typeMeta": {
+                "display": "horizontal"
+              }
+            },
+            {
+              "type": "text",
+              "label": "Section Heading",
+              "id": "heading",
+              "default": "Section Heading placeholder"
+            },
+            {
+              "type": "text",
+              "label": "Section Description",
+              "id": "description",
+              "default": "<p><b>Lorem ipsum dolor</b> <i>sit amet</i>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"
+            }
+          ]
+        },
+        {
+          "label": "Description settings",
+          "settings": [
+            {
+              "type": "color",
+              "label": "Color",
+              "id": "descriptionColor",
+              "default": "rgba(32,32,32,1)"
+            },
+            {
+              "type": "number",
+              "label": "Font size",
+              "id": "descriptionFontSize",
+              "default": {
+                "value": 16,
+                "type": "px"
+              },
+              "typeMeta": {
+                "parseType": "integer"
+              }
+            },
+            {
+              "type": "alignment",
+              "label": "Alignment",
+              "id": "descriptionAlignment",
+              "default": {
+                "horizontal": "center"
+              },
+              "typeMeta": {
+                "display": "horizontal"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "entryLabel": "accordion",
+      "label": "Accordion Item",
+      "id": "accordionItems",
+      "defaultCount": 4,
+      "thumbnail": "text",
+      "schema": [
+        {
+          "type": "tab",
+          "label": "Accordion Item",
+          "sections": [
+            {
+              "settings": [
+                {
+                  "type": "input",
+                  "label": "Heading",
+                  "id": "heading",
+                  "default": "Accordion heading placeholder"
+                },
+                {
+                  "type": "text",
+                  "label": "Content",
+                  "id": "content",
+                  "default": "<p><b>Lorem ipsum dolor</b> <i>sit amet</i>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

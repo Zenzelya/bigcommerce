@@ -1,0 +1,155 @@
+{{#or heading description (length accordionItems)}}
+    <section class="widget-custom-accordion" id="widget-accordion_{{_.id}}">
+        {{~#or heading description~}}
+            <header class="custom-accordion__header">
+                {{~#all heading (if headerStyle.visibility '===' 'show') ~}}
+                    {{#if headerStyle.tagType }}
+                        <{{headerStyle.tagType}} class="custom-accordion__heading">
+                            {{{heading}}}
+                        </{{~headerStyle.tagType~}}>
+                    {{else}}
+                        <h3>
+                            {{{heading}}}
+                        </h3>
+                    {{/if}}
+                {{/all}}
+                {{#all description (if descriptionStyle.visibility '===' 'show')}}
+                    <div class="custom-accordion__description">
+                        {{{description}}}
+                    </div>
+                {{/all}}
+            </header>
+        {{~/or~}}
+
+        {{#if (length accordionItems)}}
+            <div class="widget-custom-accordion__wrapper js-toggle-container" data-accordion-mode="{{accordionType}}">
+                {{#eachIndex accordionItems}}
+                    {{#all item.heading item.content (if item.headerStyle.visibility '===' 'show')}}
+                        <div class="custom-accordion__item js-toggle-item">
+                            <button class="custom-accordion__item-toggler js-toggle-button"
+                                    aria-label="Open accordion {{heading}}">
+                                {{{item.heading}}}
+                            </button>
+                            <div class="custom-accordion__item-content js-toggle-content">
+                                {{{item.content}}}
+                            </div>
+                        </div>
+                    {{else}}
+                        {{#all item.heading (if item.headerStyle.visibility '===' 'show')}}
+                            <h3 data-accordion-item-heading="{{index}}" class="custom-accordion__item-heading">{{{item.heading}}}</h3>
+                            <style>
+                                #widget-accordion_{{../../../_.id}} .custom-accordion__item-heading[data-accordion-item-heading="{{index}}"] {
+                                    padding: {{item.headerStyle.padding.top.value}}px {{item.headerStyle.padding.right.value}}px {{item.headerStyle.padding.bottom.value}}px {{item.headerStyle.padding.left.value}}px;
+                                    color: {{item.headerStyle.color}};
+                                    text-align: {{item.headerStyle.alignment.horizontal}};
+                                    font-size: {{item.headerStyle.fontSize}}px;
+                                }
+                            </style>
+                        {{/all}}
+                    {{/all}}
+                {{/eachIndex}}
+            </div>
+        {{/if}}
+    </section>
+
+    <style>
+        #widget-accordion_{{_.id}} .custom-accordion__item-toggler {
+           position: relative;
+           display: block;
+           width: 100%;
+            {{#if itemHeadingStyle.textStyle '===' 'custom'}}
+                color: {{itemHeadingStyle.color}};
+                font-size: {{itemHeadingStyle.fontSize}}px;
+                text-align: {{itemHeadingStyle.alignment.horizontal}};
+                padding: {{itemHeadingStyle.padding.top.value}}px {{itemHeadingStyle.padding.right.value}}px {{itemHeadingStyle.padding.bottom.value}}px {{itemHeadingStyle.padding.left.value}}px;
+            {{/if}}
+        }
+
+        #widget-accordion_{{_.id}} .custom-accordion__item-toggler::before,
+        #widget-accordion_{{_.id}} .custom-accordion__item-toggler::after {
+            content: "";
+            position: absolute;
+            right: 0px;
+            top: 50%;
+            width: {{#if itemHeadingStyle.fontSize}}{{itemHeadingStyle.fontSize}}px{{else}}15px{{/if}};
+            height: 1.5px;
+            border-radius: 2px;
+            transition-property: transform;
+            transition-duration: 0.25s;
+            transition-timing-function: ease-out;
+            background-color: {{borderColor}};
+        }
+
+        #widget-accordion_{{_.id}} .custom-accordion__item-toggler::before {
+            transform: rotate(-90deg);
+        }
+
+        #widget-accordion_{{_.id}} .active .custom-accordion__item-toggler::before {
+            transform: rotate(0deg);
+        }
+
+        #widget-accordion_{{_.id}} .custom-accordion__item-content {
+            display: none;
+            {{#if contentStyle.textStyle '===' 'custom'}}
+                color: {{contentStyle.color}};
+                font-size: {{contentStyle.fontSize}}px;
+                text-align: {{contentStyle.alignment.horizontal}};
+                padding: {{contentStyle.padding.top.value}}px {{contentStyle.padding.right.value}}px {{contentStyle.padding.bottom.value}}px {{contentStyle.padding.left.value}}px;
+            {{/if}}
+        }
+
+        {{#or enableMaxWidth enableIndent}}
+            #widget-accordion_{{_.id}} {
+                {{#if enableMaxWidth}}
+                    width: 100%;
+                    max-width: {{sectionMaxWith.value}}px;
+                    margin: 0 auto;
+                {{/if}}
+                {{#if enableIndent}}
+                    padding: {{sectionPadding.top.value}}px {{sectionPadding.right.value}}px {{sectionPadding.bottom.value}}px {{sectionPadding.left.value}}px;
+                {{/if}}
+            }
+        {{/or}}
+
+        {{#if enableBorder}}
+            #widget-accordion_{{_.id}} .custom-accordion__item {
+                border-bottom: 1px solid {{borderColor}};
+            }
+        {{/if}}
+
+        {{#all (if headerStyle.textStyle '===' 'custom') (if headerStyle.visibility '===' 'show')}}
+            #widget-accordion_{{_.id}} .custom-accordion__heading {
+                margin: 0;
+                padding: {{headerStyle.mobilePadding.top.value}}px {{headerStyle.mobilePadding.right.value}}px {{headerStyle.mobilePadding.bottom.value}}px {{headerStyle.mobilePadding.left.value}}px;
+                font-family: {{headerStyle.fontFamily}};
+                font-weight: {{headerStyle.fontWeight}};
+                color: {{headerStyle.color}};
+                font-size: {{headerStyle.mobileFontSize.value}}px;
+                text-align: {{headerStyle.alignment.horizontal}};
+            }
+
+            @media screen and (min-width: 1024px) {
+                #widget-accordion_{{_.id}} .custom-accordion__heading {
+                    padding: {{headerStyle.padding.top.value}}px {{headerStyle.padding.right.value}}px {{headerStyle.padding.bottom.value}}px {{headerStyle.padding.left.value}}px;
+                    font-size: {{headerStyle.fontSize.value}}px;
+                }
+            }
+        {{/all}}
+
+        {{#all (if descriptionStyle.textStyle '===' 'custom') (if descriptionStyle.visibility '===' 'show')}}
+            #widget-accordion_{{_.id}} .custom-accordion__description {
+                padding: {{descriptionStyle.mobilePadding.top.value}}px {{descriptionStyle.mobilePadding.right.value}}px  {{descriptionStyle.mobilePadding.bottom.value}}px {{descriptionStyle.mobilePadding.left.value}}px;
+                color: {{descriptionStyle.color}};
+                font-size: {{descriptionStyle.mobileFontSize}}px;
+                text-align: {{descriptionStyle.alignment.horizontal}};
+            }
+
+            @media screen and (min-width: 1024px) {
+                #widget-accordion_{{_.id}} .custom-accordion__description {
+                    padding: {{descriptionStyle.padding.top.value}}px {{descriptionStyle.padding.right.value}}px {{descriptionStyle.padding.bottom.value}}px {{descriptionStyle.padding.left.value}}px;
+                    font-size: {{descriptionStyle.fontSize}}px;
+                }
+            }
+        {{/all}}
+    </style>
+{{/or}}

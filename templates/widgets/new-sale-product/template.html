@@ -1,0 +1,13 @@
+<div class="widget-sale-product-carousel__{{_.id}} container" id="newSale" style="margin-bottom: 30px; text-align: center;">
+    <h2 class="page-heading"> Product New Sale Widget Carousel </h2>
+    <section class="productCarousel">
+       <h2 class="loader-js"> Loading... </h2>
+    </section>
+</div>
+
+{{~inject "thisIsSaleWidget" _.data }}
+
+<script>
+    var jsContext = JSON.parse({{jsContext}});
+    var customeData = jsContext.thisIsSaleWidget;
+</script>

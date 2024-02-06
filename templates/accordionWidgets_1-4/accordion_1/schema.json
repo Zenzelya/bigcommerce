@@ -1,0 +1,60 @@
+{
+  "name": "Accordion 1",
+  "template": "{{#or heading description (length accordion_items)}}\n    <div class=\"widget-custom-accordion\">\n        {{#or heading description}}\n            <header class=\"custom-accordion__header\">\n                {{#if heading}}\n                    <h1 class=\"custom-accordion__heading\">\n                        {{{heading}}}\n                    </h1>\n                {{/if}}\n                {{#if description}}\n                    <p class=\"custom-accordion__description\">{{{description}}}</p>\n                {{/if}}\n            </header>\n        {{/or}}\n        \n        {{#if (length accordion_items)}}\n            <div class=\"custom-accordion js-toggle-container\" data-accordion-mode=\"single\">\n                {{#each accordion_items}}\n                    {{#all heading content}}\n                        <div class=\"custom-accordion__item js-toggle-item\">\n                            <button class=\"custom-accordion__item-toggler js-toggle-button\" aria-label=\"Open accordion\">\n                                {{{heading}}}\n                            </button>\n                            <div class=\"custom-accordion__item-content js-toggle-content\">\n                                {{{content}}}\n                            </div>\n                        </div>\n                    {{else}}\n                        {{#if heading}}\n                            <h3 class=\"custom-accordion__item-heading\">{{{heading}}}</h3>\n                        {{/if}}\n                    {{/all}}\n                {{/each}}\n            </div>\n        {{/if}}\n    </div>\n{{/or}}\n",
+  "schema": [
+    {
+      "type": "tab",
+      "label": "Section settings",
+      "sections": [
+        {
+          "settings": [
+            {
+              "type": "text",
+              "id": "heading",
+              "label": "Section Heading",
+              "default": "Section Heading placeholder"
+            },
+            {
+              "type": "text",
+              "id": "description",
+              "label": "Section Description",
+              "default": "<b>Lorem ipsum dolor</b> <i>sit amet</i>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "id": "accordion_items",
+      "entryLabel": "accordion",
+      "label": "Accordion Item",
+      "defaultCount": 1,
+      "thumbnail": "text",
+      "schema": [
+        {
+          "type": "tab",
+          "label": "Accordion Item",
+          "sections": [
+            {
+              "settings": [
+                {
+                  "id": "heading",
+                  "type": "input",
+                  "label": "Heading",
+                  "default": "Accordion heading placeholder"
+                },
+                {
+                  "id": "content",
+                  "type": "text",
+                  "label": "Content",
+                  "default": "<p><b>Lorem ipsum dolor</b> <i>sit amet</i>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

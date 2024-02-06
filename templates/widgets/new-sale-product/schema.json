@@ -1,0 +1,698 @@
+{
+  "name": "Product New Sale Carousel",
+  "storefront_api_query": "query MyFirstQuery {\n  site {\n    settings {\n      storeName\n    }\n    newestProducts(first: 50, hideOutOfStock: true) {\n      edges {\n        node {\n          addToCartUrl\n          createdAt {\n            utc\n          }\n          defaultImage {\n            url(width: 160, height: 160)\n          }\n          path\n          name\n          prices {\n            bulkPricing {\n              minimumQuantity\n              ... on BulkPricingFixedPriceDiscount {\n                maximumQuantity\n                price\n                minimumQuantity\n              }\n              ... on BulkPricingPercentageDiscount {\n                maximumQuantity\n                minimumQuantity\n                percentOff\n              }\n              ... on BulkPricingRelativePriceDiscount {\n                maximumQuantity\n                minimumQuantity\n                priceAdjustment\n              }\n            }\n            price {\n              value\n              currencyCode\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+  "template": "<div class=\"widget-sale-product-carousel__{{_.id}} container\" id=\"newSale\" style=\"margin-bottom: 30px; text-align: center;\">\n    <h2 class=\"page-heading\"> Product New Sale Widget Carousel </h2>\n    <section class=\"productCarousel\">\n       <h2 class=\"loader-js\"> Loading... </h2>\n    </section>\n</div>\n\n{{~inject \"thisIsSaleWidget\" _.data }}\n\n<script>\n    var jsContext = JSON.parse({{jsContext}});\n    var customeData = jsContext.thisIsSaleWidget;\n</script>\n",
+  "schema": [
+    {
+      "type": "hidden",
+      "settings": [
+        {
+          "type": "graphQl",
+          "id": "graphQueries",
+          "typeMeta": {
+            "mappings": {
+              "productIds": {
+                "reads": "product.value.*.productId",
+                "type": "Int!"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "tab",
+      "label": "Content",
+      "sections": [
+        {
+          "label": "Products",
+          "settings": [
+            {
+              "type": "productSet",
+              "label": "Product Set",
+              "id": "product",
+              "entryLabel": "Product",
+              "default": {
+                "type": "manual",
+                "value": []
+              }
+            }
+          ],
+          "typeMeta": {
+            "type": "setSection"
+          }
+        },
+        {
+          "label": "Elements",
+          "settings": [
+            {
+              "type": "alignment",
+              "label": "Content alignment",
+              "id": "productCardContentAlignment",
+              "default": {
+                "horizontal": "center"
+              },
+              "typeMeta": {
+                "display": "horizontal"
+              }
+            },
+            {
+              "type": "select",
+              "label": "Products per slide",
+              "default": 4,
+              "id": "productsPerSlide",
+              "typeMeta": {
+                "selectOptions": [
+                  {
+                    "label": "1",
+                    "value": 1
+                  },
+                  {
+                    "label": "2",
+                    "value": 2
+                  },
+                  {
+                    "label": "3",
+                    "value": 3
+                  },
+                  {
+                    "label": "4",
+                    "value": 4
+                  }
+                ]
+              }
+            },
+            {
+              "type": "element",
+              "label": "Product image",
+              "id": "productImage",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "show"
+                  },
+                  "advanced": {
+                    "label": "Product image style",
+                    "settings": [
+                      {
+                        "type": "select",
+                        "label": "Image fit",
+                        "id": "imageFit",
+                        "default": "fill",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Scale to fill box",
+                              "value": "fill"
+                            },
+                            {
+                              "label": "Scale to fit box",
+                              "value": "fit"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "element",
+              "label": "Brand",
+              "id": "brand",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "show"
+                  },
+                  "advanced": {
+                    "label": "Brand style",
+                    "settings": [
+                      {
+                        "type": "typography",
+                        "label": "Text",
+                        "id": "textStyle",
+                        "default": "default"
+                      },
+                      {
+                        "type": "color",
+                        "label": "Text color",
+                        "id": "color",
+                        "default": "#444444"
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font family",
+                        "id": "fontFamily",
+                        "default": "inherit",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Theme Default",
+                              "value": "inherit"
+                            },
+                            {
+                              "label": "Arial",
+                              "value": "Arial, sans-serif"
+                            },
+                            {
+                              "label": "Tahoma",
+                              "value": "Tahoma, sans-serif"
+                            },
+                            {
+                              "label": "Verdana",
+                              "value": "Verdana, sans-serif"
+                            },
+                            {
+                              "label": "Lucida",
+                              "value": "Lucida, sans-serif"
+                            },
+                            {
+                              "label": "Times New Roman",
+                              "value": "Times New Roman, serif"
+                            },
+                            {
+                              "label": "Courier",
+                              "value": "Courier, serif"
+                            },
+                            {
+                              "label": "Georgia",
+                              "value": "Georgia, serif"
+                            },
+                            {
+                              "label": "Palatino",
+                              "value": "Palatino, serif"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font weight",
+                        "id": "fontWeight",
+                        "default": "400",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Thin",
+                              "value": "100"
+                            },
+                            {
+                              "label": "Extra Light (Ultra Light)",
+                              "value": "200"
+                            },
+                            {
+                              "label": "Light",
+                              "value": "300"
+                            },
+                            {
+                              "label": "Normal",
+                              "value": "400"
+                            },
+                            {
+                              "label": "Medium",
+                              "value": "500"
+                            },
+                            {
+                              "label": "Semi Bold (Demi Bold)",
+                              "value": "600"
+                            },
+                            {
+                              "label": "Bold",
+                              "value": "700"
+                            },
+                            {
+                              "label": "Extra Bold (Ultra Bold)",
+                              "value": "800"
+                            },
+                            {
+                              "label": "Black (Heavy)",
+                              "value": "900"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "number",
+                        "label": "Font size",
+                        "id": "fontSize",
+                        "default": {
+                          "value": 36,
+                          "type": "px"
+                        },
+                        "typeMeta": {
+                          "parseType": "integer"
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "element",
+              "label": "Product name",
+              "id": "productName",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "show"
+                  },
+                  "advanced": {
+                    "label": "Product name style",
+                    "settings": [
+                      {
+                        "type": "typography",
+                        "label": "Text",
+                        "id": "textStyle",
+                        "default": "default"
+                      },
+                      {
+                        "type": "color",
+                        "label": "Text color",
+                        "id": "color",
+                        "default": "#444444"
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font family",
+                        "id": "fontFamily",
+                        "default": "inherit",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Theme Default",
+                              "value": "inherit"
+                            },
+                            {
+                              "label": "Arial",
+                              "value": "Arial, sans-serif"
+                            },
+                            {
+                              "label": "Tahoma",
+                              "value": "Tahoma, sans-serif"
+                            },
+                            {
+                              "label": "Verdana",
+                              "value": "Verdana, sans-serif"
+                            },
+                            {
+                              "label": "Lucida",
+                              "value": "Lucida, sans-serif"
+                            },
+                            {
+                              "label": "Times New Roman",
+                              "value": "Times New Roman, serif"
+                            },
+                            {
+                              "label": "Courier",
+                              "value": "Courier, serif"
+                            },
+                            {
+                              "label": "Georgia",
+                              "value": "Georgia, serif"
+                            },
+                            {
+                              "label": "Palatino",
+                              "value": "Palatino, serif"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font weight",
+                        "id": "fontWeight",
+                        "default": "400",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Thin",
+                              "value": "100"
+                            },
+                            {
+                              "label": "Extra Light (Ultra Light)",
+                              "value": "200"
+                            },
+                            {
+                              "label": "Light",
+                              "value": "300"
+                            },
+                            {
+                              "label": "Normal",
+                              "value": "400"
+                            },
+                            {
+                              "label": "Medium",
+                              "value": "500"
+                            },
+                            {
+                              "label": "Semi Bold (Demi Bold)",
+                              "value": "600"
+                            },
+                            {
+                              "label": "Bold",
+                              "value": "700"
+                            },
+                            {
+                              "label": "Extra Bold (Ultra Bold)",
+                              "value": "800"
+                            },
+                            {
+                              "label": "Black (Heavy)",
+                              "value": "900"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "number",
+                        "label": "Font size",
+                        "id": "fontSize",
+                        "default": {
+                          "value": 36,
+                          "type": "px"
+                        },
+                        "typeMeta": {
+                          "parseType": "integer"
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "element",
+              "label": "Price",
+              "id": "price",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "show"
+                  },
+                  "advanced": {
+                    "label": "Price style",
+                    "settings": [
+                      {
+                        "type": "typography",
+                        "label": "Text",
+                        "id": "textStyle",
+                        "default": "default"
+                      },
+                      {
+                        "type": "color",
+                        "label": "Text color",
+                        "id": "color",
+                        "default": "#444444"
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font family",
+                        "id": "fontFamily",
+                        "default": "inherit",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Theme Default",
+                              "value": "inherit"
+                            },
+                            {
+                              "label": "Arial",
+                              "value": "Arial, sans-serif"
+                            },
+                            {
+                              "label": "Tahoma",
+                              "value": "Tahoma, sans-serif"
+                            },
+                            {
+                              "label": "Verdana",
+                              "value": "Verdana, sans-serif"
+                            },
+                            {
+                              "label": "Lucida",
+                              "value": "Lucida, sans-serif"
+                            },
+                            {
+                              "label": "Times New Roman",
+                              "value": "Times New Roman, serif"
+                            },
+                            {
+                              "label": "Courier",
+                              "value": "Courier, serif"
+                            },
+                            {
+                              "label": "Georgia",
+                              "value": "Georgia, serif"
+                            },
+                            {
+                              "label": "Palatino",
+                              "value": "Palatino, serif"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font weight",
+                        "id": "fontWeight",
+                        "default": "400",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Thin",
+                              "value": "100"
+                            },
+                            {
+                              "label": "Extra Light (Ultra Light)",
+                              "value": "200"
+                            },
+                            {
+                              "label": "Light",
+                              "value": "300"
+                            },
+                            {
+                              "label": "Normal",
+                              "value": "400"
+                            },
+                            {
+                              "label": "Medium",
+                              "value": "500"
+                            },
+                            {
+                              "label": "Semi Bold (Demi Bold)",
+                              "value": "600"
+                            },
+                            {
+                              "label": "Bold",
+                              "value": "700"
+                            },
+                            {
+                              "label": "Extra Bold (Ultra Bold)",
+                              "value": "800"
+                            },
+                            {
+                              "label": "Black (Heavy)",
+                              "value": "900"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "number",
+                        "label": "Font size",
+                        "id": "fontSize",
+                        "default": {
+                          "value": 36,
+                          "type": "px"
+                        },
+                        "typeMeta": {
+                          "parseType": "integer"
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "element",
+              "label": "Product rating",
+              "id": "productRating",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "hide"
+                  },
+                  "advanced": {
+                    "label": "Product rating style",
+                    "settings": [
+                      {
+                        "type": "color",
+                        "label": "Star color (filled)",
+                        "id": "starColorFilled",
+                        "default": "#3C64F4"
+                      },
+                      {
+                        "type": "color",
+                        "label": "Star color (empty)",
+                        "id": "starColorEmpty",
+                        "default": "#ECEEF5"
+                      },
+                      {
+                        "type": "color",
+                        "label": "Reviews text color",
+                        "id": "reviewsColor",
+                        "default": "#8C93AD"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "element",
+              "label": "Button",
+              "id": "button",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "hide"
+                  },
+                  "advanced": {
+                    "label": "Button style",
+                    "settings": [
+                      {
+                        "type": "select",
+                        "label": "Button shape",
+                        "id": "shape",
+                        "default": "round",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Round",
+                              "value": "round"
+                            },
+                            {
+                              "label": "Square",
+                              "value": "square"
+                            },
+                            {
+                              "label": "Pill",
+                              "value": "pill"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "color",
+                        "label": "Button color",
+                        "id": "buttonColor",
+                        "default": "rgba(68,68,68,1)"
+                      },
+                      {
+                        "type": "color",
+                        "label": "Button text color",
+                        "id": "buttonTextColor",
+                        "default": "rgba(255,255,255,1)"
+                      },
+                      {
+                        "type": "select",
+                        "label": "Button action",
+                        "id": "buttonActionType",
+                        "default": "addToCart",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Add to Cart",
+                              "value": "addToCart"
+                            },
+                            {
+                              "label": "Add to Wishlist",
+                              "value": "addToWishlist"
+                            },
+                            {
+                              "label": "Go to Product Page",
+                              "value": "goToProduct"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "icon_name": "sd-product-set",
+  "template_engine": "handlebars_v3",
+  "client_rerender": false
+}

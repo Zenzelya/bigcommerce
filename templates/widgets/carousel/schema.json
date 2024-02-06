@@ -1,0 +1,151 @@
+{
+  "name": "newCarouselWidget",
+  "template": "{{#if (length carouselItems)}}\n<div class=\"widget-carousel__{{_.id}}\"\n     data-slick='{\n     \"slidesToShow\": {{ slidesToShow }},\n     \"slidesToScroll\": {{ slidesToScroll }},\n     \"autoplay\": {{ autoplay }},\n     \"autoplaySpeed\": {{ speed.value }},\n     \"dots\": {{ dots }},\n     \"infinite\": {{ infinite }},\n     \"responsive\": [{\n        \"breakpoint\": 800,\n         \"settings\": {\n            \"arrows\": false\n         }\n         }]\n     }'>\n    {{#each carouselItems}}\n            <div class=\"widget-carousel__item\">\n                <a href=\"{{ url }}\">\n                    <img src=\"{{ image.src }}\" alt=\"{{ altText }}\">\n                </a>\n            </div>\n    {{/each}}\n</div>\n{{~/if~}}\n\n<style>\n    .widget-carousel__{{_.id}} {\n    margin-bottom: 40px;\n\n        .widget-carousel__item {\n            a {\n                text-decoration: none;\n                            }\n        }\n    }\n</style>\n",
+  "schema": [
+    {
+      "type": "tab",
+      "label": "Section settings",
+      "sections": [
+        {
+          "settings": [
+            {
+              "type": "select",
+              "label": "Items to show",
+              "id": "slidesToShow",
+              "typeMeta": {
+                "selectOptions": [
+                  {
+                    "label": "1",
+                    "value": "1"
+                  },
+                  {
+                    "label": "2",
+                    "value": "2"
+                  },
+                  {
+                    "label": "3",
+                    "value": "3"
+                  },
+                  {
+                    "label": "4",
+                    "value": "4"
+                  }
+                ]
+              },
+              "default": "1"
+            },
+            {
+              "type": "select",
+              "label": "Items to scroll",
+              "id": "slidesToScroll",
+              "typeMeta": {
+                "selectOptions": [
+                  {
+                    "label": "1",
+                    "value": "1"
+                  },
+                  {
+                    "label": "2",
+                    "value": "2"
+                  },
+                  {
+                    "label": "3",
+                    "value": "3"
+                  },
+                  {
+                    "label": "4",
+                    "value": "4"
+                  }
+                ]
+              },
+              "default": "1"
+            },
+            {
+              "type": "boolean",
+              "label": "Dots",
+              "id": "dots",
+              "default": false
+            },
+            {
+              "type": "boolean",
+              "label": "Autoplay",
+              "id": "autoplay",
+              "default": true
+            },
+            {
+              "type": "boolean",
+              "label": "Infinite play",
+              "id": "infinite",
+              "default": true,
+              "conditional": {
+                "key": "autoplay",
+                "operator": "IN",
+                "value": [
+                  "true",
+                  true
+                ]
+              }
+            },
+            {
+              "type": "number",
+              "label": "Autoplay speed",
+              "id": "speed",
+              "default": {
+                "value": 1000,
+                "type": "msec"
+              },
+              "conditional": {
+                "key": "autoplay",
+                "operator": "IN",
+                "value": [
+                  "true",
+                  true
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "id": "carouselItems",
+      "entryLabel": "carousel",
+      "label": "Carousel Items",
+      "defaultCount": 2,
+      "thumbnail": "text",
+      "schema": [
+        {
+          "type": "tab",
+          "label": "Carousel Item",
+          "sections": [
+            {
+              "settings": [
+                {
+                  "type": "input",
+                  "label": "Url link",
+                  "id": "url",
+                  "default": "/"
+                },
+                {
+                  "type": "input",
+                  "label": "Image alt text",
+                  "id": "altText",
+                  "default": "altText"
+                },
+                {
+                  "type": "imageManager",
+                  "id": "image",
+                  "default": {
+                    "src": "https://betterineraction.nyc3.cdn.digitaloceanspaces.com/big-default-monochrome%201.png",
+                    "type": "IMAGE_MANAGER"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{{#if (length carouselItems)}}
+<div class="widget-carousel__{{_.id}}"
+     data-slick='{
+     "slidesToShow": {{ slidesToShow }},
+     "slidesToScroll": {{ slidesToScroll }},
+     "autoplay": {{ autoplay }},
+     "autoplaySpeed": {{ speed.value }},
+     "dots": {{ dots }},
+     "infinite": {{ infinite }},
+     "responsive": [{
+        "breakpoint": 800,
+         "settings": {
+            "arrows": false
+         }
+         }]
+     }'>
+    {{#each carouselItems}}
+            <div class="widget-carousel__item">
+                <a href="{{ url }}">
+                    <img src="{{ image.src }}" alt="{{ altText }}">
+                </a>
+            </div>
+    {{/each}}
+</div>
+{{~/if~}}
+sc
+<style>
+    .widget-carousel__{{_.id}} {
+    margin-bottom: 40px;
+
+        .widget-carousel__item {
+            a {
+                text-decoration: none;
+                            }
+        }
+    }
+</style>

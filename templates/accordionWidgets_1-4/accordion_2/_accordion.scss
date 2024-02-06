@@ -1,0 +1,50 @@
+$color-line-separator:              #212121;
+$color-paragraph-primary:           #0060aa;
+
+.custom-accordion {
+  .custom-accordion__item-toggler {
+    position: relative;
+    display: block;
+    padding: 25px 25px 25px 0;
+    width: 100%;
+    text-align: left;
+    color: $color-paragraph-primary;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      width: 18px;
+      height: 1.5px;
+      border-radius: 2px;
+      transition-property: transform;
+      transition-duration: 0.25s;
+      transition-timing-function: ease-out;
+      background-color: $color-paragraph-primary;
+    }
+
+    &::before {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .active .custom-accordion__item-toggler::before {
+    transform: rotate(0deg);
+  }
+
+  .custom-accordion__item-content {
+    display: none;
+    padding-bottom: 25px;
+  }
+}
+
+.widget-custom-accordion {}
+.widget-custom-accordion .custom-accordion__header {}
+.widget-custom-accordion .custom-accordion__heading {}
+.widget-custom-accordion .custom-accordion__description {}
+.widget-custom-accordion__wrapper .custom-accordion__item-heading {}
+.widget-custom-accordion__wrapper .custom-accordion__item-heading + .custom-accordion__item-heading {}
+.widget-custom-accordion__wrapper .custom-accordion__item-toggler {}
+.widget-custom-accordion__wrapper .custom-accordion__item-content {}

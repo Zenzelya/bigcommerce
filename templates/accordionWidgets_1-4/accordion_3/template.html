@@ -1,0 +1,152 @@
+{{#or heading description (length accordionItems)}}
+    <p class="powered-by">widget-custom-accordion </p>
+    <section class="widget-custom-accordion" id="widget-accordion_{{_.id}}">
+        {{~#or heading description~}}
+            <header class="custom-accordion__header">
+                {{~#all heading (if headerStyle.visibility '===' 'show') ~}}
+                    {{#if headerStyle.tagType }}
+                        <{{headerStyle.tagType}} class="custom-accordion__heading">
+                            {{{heading}}}
+                        </{{~headerStyle.tagType~}}>
+                    {{else}}
+                        <h3>
+                            {{{heading}}}
+                        </h3>
+                    {{/if}}
+                {{/all}}
+                {{#all description (if descriptionStyle.visibility '===' 'show')}}
+                    <div class="custom-accordion__description">
+                        {{{description}}}
+                    </div>
+                {{/all}}
+            </header>
+        {{~/or~}}
+
+        {{#if (length accordionItems)}}
+            <div class="widget-custom-accordion__wrapper js-toggle-container" data-accordion-mode="{{accordionType}}">
+                {{#eachIndex accordionItems}}
+                    {{#all item.heading item.content (if item.headerStyle.visibility '===' 'show') (if item.contentStyle.visibility '===' 'show')}}
+                        <div class="custom-accordion__item js-toggle-item">
+                            <button class="custom-accordion__item-toggler js-toggle-button"
+                                    data-accordion-item-heading="{{index}}"
+                                    aria-label="Open accordion {{heading}}">
+                                {{{item.heading}}}
+                            </button>
+                            <div class="custom-accordion__item-content js-toggle-content" data-accordion-item-content="{{index}}">
+                                {{{item.content}}}
+                            </div>
+                        </div>
+
+                        {{#all item.content (if item.contentStyle.textStyle '===' 'custom') (if item.contentStyle.visibility '===' 'show')}}
+                            <style>
+                                #widget-accordion_{{../../../_.id}} [data-accordion-item-content="{{index}}"] {
+                                    padding: {{item.contentStyle.padding.top.value}}px {{item.contentStyle.padding.right.value}}px {{item.contentStyle.padding.bottom.value}}px {{item.contentStyle.padding.left.value}}px;
+                                    text-align: {{item.contentStyle.alignment.horizontal}};
+                                    font-size: {{item.contentStyle.fontSize}}px;
+                                }
+                            </style>
+                        {{/all}}
+                    {{else}}
+                        {{#all item.heading (if item.headerStyle.visibility '===' 'show')}}
+                            <h3 data-accordion-item-heading="{{index}}" class="custom-accordion__item-heading">{{{item.heading}}}</h3>
+                        {{/all}}
+                    {{/all}}
+
+                    {{#all item.heading (if item.headerStyle.textStyle '===' 'custom') (if item.headerStyle.visibility '===' 'show')}}
+                        <style>
+                            #widget-accordion_{{../../_.id}} [data-accordion-item-heading="{{index}}"] {
+                                padding: {{item.headerStyle.padding.top.value}}px {{item.headerStyle.padding.right.value}}px {{item.headerStyle.padding.bottom.value}}px {{item.headerStyle.padding.left.value}}px;
+                                color: {{item.headerStyle.color}};
+                                text-align: {{item.headerStyle.alignment.horizontal}};
+                                font-size: {{item.headerStyle.fontSize}}px;
+                            }
+                        </style>
+                    {{/all}}
+                {{/eachIndex}}
+            </div>
+        {{/if}}
+    </section>
+
+    <style>
+        {{#or enableMaxWidth enableIndent}}
+            #widget-accordion_{{_.id}} {
+                {{#if enableMaxWidth}}
+                    width: 100%;
+                    max-width: {{sectionMaxWith.value}}px;
+                    margin: 0 auto;
+                {{/if}}
+
+                {{#if enableIndent}}
+                    padding: {{sectionPadding.top.value}}px {{sectionPadding.right.value}}px {{sectionPadding.bottom.value}}px {{sectionPadding.left.value}}px;
+                {{/if}}
+            }
+        {{/or}}
+        {{#if enableBorder}}
+            #widget-accordion_{{_.id}} .custom-accordion__item {
+                border-bottom: 1px solid {{borderColor}};
+            }
+        {{/if}}
+        {{#all (if headerStyle.textStyle '===' 'custom') (if headerStyle.visibility '===' 'show')}}
+            #widget-accordion_{{_.id}} .custom-accordion__heading {
+                margin: 0;
+                padding: {{headerStyle.mobilePadding.top.value}}px {{headerStyle.mobilePadding.right.value}}px {{headerStyle.mobilePadding.bottom.value}}px {{headerStyle.mobilePadding.left.value}}px;
+                font-family: {{headerStyle.fontFamily}};
+                font-weight: {{headerStyle.fontWeight}};
+                color: {{headerStyle.color}};
+                font-size: {{headerStyle.mobileFontSize.value}}px;
+                text-align: {{headerStyle.alignment.horizontal}};
+            }
+
+            @media screen and (min-width: 1024px) {
+                #widget-accordion_{{_.id}} .custom-accordion__heading {
+                    padding: {{headerStyle.padding.top.value}}px {{headerStyle.padding.right.value}}px {{headerStyle.padding.bottom.value}}px {{headerStyle.padding.left.value}}px;
+                    font-size: {{headerStyle.fontSize.value}}px;
+                }
+            }
+        {{/all}}
+        {{#all (if descriptionStyle.textStyle '===' 'custom') (if descriptionStyle.visibility '===' 'show')}}
+            #widget-accordion_{{_.id}} .custom-accordion__description {
+                padding: {{descriptionStyle.mobilePadding.top.value}}px {{descriptionStyle.mobilePadding.right.value}}px  {{descriptionStyle.mobilePadding.bottom.value}}px {{descriptionStyle.mobilePadding.left.value}}px;
+                color: {{descriptionStyle.color}};
+                font-size: {{descriptionStyle.mobileFontSize}}px;
+                text-align: {{descriptionStyle.alignment.horizontal}};
+            }
+
+            @media screen and (min-width: 1024px) {
+                #widget-accordion_{{_.id}} .custom-accordion__description {
+                    padding: {{descriptionStyle.padding.top.value}}px {{descriptionStyle.padding.right.value}}px {{descriptionStyle.padding.bottom.value}}px {{descriptionStyle.padding.left.value}}px;
+                    font-size: {{descriptionStyle.fontSize}}px;
+                }
+            }
+        {{/all}}
+    </style>
+
+    {{~inject "AccordionWidgetThis" this ~}}
+    {{~inject "AccordionWidgetStyle" headerStyle ~}}
+    {{~inject "AccordionItem" accordionItems ~}}
+
+    <script>
+        var jsContext = JSON.parse({{jsContext}});
+        console.log('AccordionWidgetThis', jsContext.AccordionWidgetThis);
+        console.log('AccordionWidgetStyle', jsContext.AccordionWidgetStyle);
+        console.log('AccordionItem', jsContext.AccordionItem);
+    </script>
+<script>
+    let url = 'https://api.bigcommerce.com/stores/2hrfq2xy1y/v3/storefront/api-token';
+
+    let options = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'X-Auth-Token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly9zdG9yZS0yaHJmcTJ4eTF5Lm15YmlnY29tbWVyY2UuY29tIl0sImVhdCI6MTcwNjM1ODUzNywiaWF0IjoxNzA2MTg1NzM3LCJpc3MiOiJCQyIsInNpZCI6MTAwMzEyMjY4MSwic3ViIjoiQkMiLCJzdWJfdHlwZSI6MCwidG9rZW5fdHlwZSI6MX0.PzwWc-uHX2qm4kbeTUuRgGSvfwvGYHE27WfCslQCp0cHAlBu8jTXgLuX137PM-9u7hLdzu1hkQq1-VT0S4gqNA'
+        },
+        body: '{"allowed_cors_origins":["https://testpartnersandbox.mybigcommerce.com/"],"channel_id":1,"expires_at":1885635176}'
+    };
+
+    fetch(url, options)
+        .then(res => res.json())
+        .then(json => console.log(json))
+        .catch(err => console.error('error:' + err));
+</script>
+{{/or}}

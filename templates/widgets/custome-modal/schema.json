@@ -1,0 +1,29 @@
+{
+  "name": "new Reveal",
+  "template": "<div class=\"reveal__{{_.id}} banner-js modal modal--large\" id=\"{{_.id}}\" data-reveal data-timer=\"{{modalTimer.value}}\">\n    <div class=\"modal-header\">\n        <h3 class=\"modal-header-title\">Header</h3>\n        <button class=\"modal-close\" type=\"button\" data-reveal-close=\"\" >\n            <span class=\"aria-description--hidden\">Close</span>\n            <span aria-hidden=\"true\">&#215;</span>\n        </button>\n    </div>\n    <div class=\"model-body\">\n        <p>\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n        </p>\n    </div>\n</div>\n\n<style>\n    .reveal__{{_.id}} {\n        display: none;\n\n        .model-body {\n            padding: 40px 20px;\n        }\n    }\n</style>\n\n\n",
+  "schema": [
+    {
+      "type": "tab",
+      "label": "Section settings",
+      "sections": [
+        {
+          "settings": [
+            {
+              "type": "number",
+              "label": "Time interval",
+              "id": "modalTimer",
+              "default":
+              {
+                "value": 10000,
+                "type": "msec"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+

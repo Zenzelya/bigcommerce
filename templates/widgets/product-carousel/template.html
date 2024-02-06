@@ -1,0 +1,51 @@
+<div class="widget-product-carousel__{{_.id}} container">
+    <h2 class="page-heading"> Product Widget Carousel </h2>
+    <section class="productCarousel"
+             data-slick='{
+        "infinite": true,
+        "mobileFirst": true,
+        "slidesToShow": 2,
+        "slidesToScroll": 1,
+        "responsive": [
+            {
+                "breakpoint": 800,
+                "settings": {
+                    "slidesToShow": 4,
+                    "slidesToScroll": 1
+                }
+            },
+            {
+                "breakpoint": 550,
+                "settings": {
+                    "slidesToShow": 3,
+                    "slidesToScroll": 1
+                }
+            }
+        ]
+    }'>
+        {{#each _.data.site.products.edges }}
+        <div class="productCarousel-slide">
+            <article class="card">
+                <figure class="card-figure">
+                    <a class="card-figure__link" href="{{node.path}}">
+                        <div class="card-img-container">
+                            <img class="card-image lazyautosizes lazyloaded" src="{{ node.defaultImage.url160wide }}">
+                        </div>
+                    </a>
+                </figure>
+                <div class="card-body">
+                    <h3 class="card-title">{{ node.name }}</h3>
+                    <p class="price-section price-section--withoutTax">
+                        <span>{{ node.priceWithoutTax.price.value}}</span><spa>{{node.priceWithoutTax.price.currencyCode }}</spa></p>
+                </div>
+            </article>
+        </div>
+        {{/each}}
+    </section>
+</div>
+{{~inject "thisIsWidget" _.data ~}}
+
+<script>
+    var jsContext = JSON.parse({{jsContext}});
+    console.log('thisIsWidget', jsContext.thisIsWidget);
+</script>

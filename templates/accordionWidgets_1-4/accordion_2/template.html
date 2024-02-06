@@ -1,0 +1,60 @@
+{{#or heading description (length accordionItems)}}
+    <div class="widget-custom-accordion"
+         {{#or enableMaxWidth enableIndent}}
+            style="
+                {{#if enableMaxWidth}}
+                    margin: 0 auto; width: 100%; max-width: {{sectionMaxWith.value}}px;
+                {{/if}}
+                {{#if enableIndent}}
+                    padding: {{sectionPadding.top.value}}px {{sectionPadding.right.value}}px {{sectionPadding.bottom.value}}px {{sectionPadding.left.value}}px;
+                {{/if}}
+            "
+         {{/or}}
+    >
+        {{#or heading description}}
+            <header class="custom-accordion__header">
+                {{#if heading}}
+                    <{{tagType}} class="custom-accordion__heading"
+                        style="color: {{headingColor}};
+                        text-align: {{headingAlignment.horizontal}};
+                        font-size: {{headingFontSize.value}}px"
+                    >
+                        {{{heading}}}
+                    </{{~tagType~}}>
+                {{/if}}
+                {{#if description}}
+                    <div class="custom-accordion__description"
+                       style="color: {{descriptionColor}};
+                       text-align: {{descriptionAlignment.horizontal}};
+                       font-size: {{descriptionFontSize.value}}{{descriptionFontSize.type}}"
+                    >
+                        {{{description}}}
+                    </div>
+                {{/if}}
+            </header>
+        {{/or}}
+
+        {{#if (length accordionItems)}}
+            <div class="custom-accordion js-toggle-container" data-accordion-mode="{{accordionType}}">
+                {{#each accordionItems}}
+                    {{#all heading content}}
+                        <div class="custom-accordion__item js-toggle-item"
+                             {{#if ../../enableBorder }} style="border-bottom: 1px solid #323232" {{/if}}
+                        >
+                            <button class="custom-accordion__item-toggler js-toggle-button" aria-label="Open accordion">
+                                {{{heading}}}
+                            </button>
+                            <div class="custom-accordion__item-content js-toggle-content">
+                                {{{content}}}
+                            </div>
+                        </div>
+                    {{else}}
+                        {{#if heading}}
+                            <h3 class="custom-accordion__item-heading">{{{heading}}}</h3>
+                        {{/if}}
+                    {{/all}}
+                {{/each}}
+            </div>
+        {{/if}}
+    </div>
+{{/or}}

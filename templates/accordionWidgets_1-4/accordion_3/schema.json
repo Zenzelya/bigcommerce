@@ -1,0 +1,810 @@
+{
+  "name": "Accordion 111",
+  "template": "{{#or heading description (length accordionItems)}}\n    <p class=\"powered-by\">widget-custom-accordion </p>\n    <section class=\"widget-custom-accordion\" id=\"widget-accordion_{{_.id}}\">\n        {{~#or heading description~}}\n            <header class=\"custom-accordion__header\">\n                {{~#all heading (if headerStyle.visibility '===' 'show') ~}}\n                    {{#if headerStyle.tagType }}\n                        <{{headerStyle.tagType}} class=\"custom-accordion__heading\">\n                            {{{heading}}}\n                        </{{~headerStyle.tagType~}}>\n                    {{else}}\n                        <h3>\n                            {{{heading}}}\n                        </h3>\n                    {{/if}}\n                {{/all}}\n                {{#all description (if descriptionStyle.visibility '===' 'show')}}\n                    <div class=\"custom-accordion__description\">\n                        {{{description}}}\n                    </div>\n                {{/all}}\n            </header>\n        {{~/or~}}\n\n        {{#if (length accordionItems)}}\n            <div class=\"widget-custom-accordion__wrapper js-toggle-container\" data-accordion-mode=\"{{accordionType}}\">\n                {{#eachIndex accordionItems}}\n                    {{#all item.heading item.content (if item.headerStyle.visibility '===' 'show') (if item.contentStyle.visibility '===' 'show')}}\n                        <div class=\"custom-accordion__item js-toggle-item\">\n                            <button class=\"custom-accordion__item-toggler js-toggle-button\"\n                                    data-accordion-item-heading=\"{{index}}\"\n                                    aria-label=\"Open accordion {{heading}}\">\n                                {{{item.heading}}}\n                            </button>\n                            <div class=\"custom-accordion__item-content js-toggle-content\" data-accordion-item-content=\"{{index}}\">\n                                {{{item.content}}}\n                            </div>\n                        </div>\n\n                        {{#all item.content (if item.contentStyle.textStyle '===' 'custom') (if item.contentStyle.visibility '===' 'show')}}\n                            <style>\n                                #widget-accordion_{{../../../_.id}} [data-accordion-item-content=\"{{index}}\"] {\n                                    padding: {{item.contentStyle.padding.top.value}}px {{item.contentStyle.padding.right.value}}px {{item.contentStyle.padding.bottom.value}}px {{item.contentStyle.padding.left.value}}px;\n                                    text-align: {{item.contentStyle.alignment.horizontal}};\n                                    font-size: {{item.contentStyle.fontSize}}px;\n                                }\n                            </style>\n                        {{/all}}\n                    {{else}}\n                        {{#all item.heading (if item.headerStyle.visibility '===' 'show')}}\n                            <h3 data-accordion-item-heading=\"{{index}}\" class=\"custom-accordion__item-heading\">{{{item.heading}}}</h3>\n                        {{/all}}\n                    {{/all}}\n\n                    {{#all item.heading (if item.headerStyle.textStyle '===' 'custom') (if item.headerStyle.visibility '===' 'show')}}\n                        <style>\n                            #widget-accordion_{{../../_.id}} [data-accordion-item-heading=\"{{index}}\"] {\n                                padding: {{item.headerStyle.padding.top.value}}px {{item.headerStyle.padding.right.value}}px {{item.headerStyle.padding.bottom.value}}px {{item.headerStyle.padding.left.value}}px;\n                                color: {{item.headerStyle.color}};\n                                text-align: {{item.headerStyle.alignment.horizontal}};\n                                font-size: {{item.headerStyle.fontSize}}px;\n                            }\n                        </style>\n                    {{/all}}\n                {{/eachIndex}}\n            </div>\n        {{/if}}\n    </section>\n\n    <style>\n        {{#or enableMaxWidth enableIndent}}\n            #widget-accordion_{{_.id}} {\n                {{#if enableMaxWidth}}\n                    width: 100%;\n                    max-width: {{sectionMaxWith.value}}px;\n                    margin: 0 auto;\n                {{/if}}\n\n                {{#if enableIndent}}\n                    padding: {{sectionPadding.top.value}}px {{sectionPadding.right.value}}px {{sectionPadding.bottom.value}}px {{sectionPadding.left.value}}px;\n                {{/if}}\n            }\n        {{/or}}\n        {{#if enableBorder}}\n            #widget-accordion_{{_.id}} .custom-accordion__item {\n                border-bottom: 1px solid {{borderColor}};\n            }\n        {{/if}}\n        {{#all (if headerStyle.textStyle '===' 'custom') (if headerStyle.visibility '===' 'show')}}\n            #widget-accordion_{{_.id}} .custom-accordion__heading {\n                margin: 0;\n                padding: {{headerStyle.mobilePadding.top.value}}px {{headerStyle.mobilePadding.right.value}}px {{headerStyle.mobilePadding.bottom.value}}px {{headerStyle.mobilePadding.left.value}}px;\n                font-family: {{headerStyle.fontFamily}};\n                font-weight: {{headerStyle.fontWeight}};\n                color: {{headerStyle.color}};\n                font-size: {{headerStyle.mobileFontSize.value}}px;\n                text-align: {{headerStyle.alignment.horizontal}};\n            }\n\n            @media screen and (min-width: 1024px) {\n                #widget-accordion_{{_.id}} .custom-accordion__heading {\n                    padding: {{headerStyle.padding.top.value}}px {{headerStyle.padding.right.value}}px {{headerStyle.padding.bottom.value}}px {{headerStyle.padding.left.value}}px;\n                    font-size: {{headerStyle.fontSize.value}}px;\n                }\n            }\n        {{/all}}\n        {{#all (if descriptionStyle.textStyle '===' 'custom') (if descriptionStyle.visibility '===' 'show')}}\n            #widget-accordion_{{_.id}} .custom-accordion__description {\n                padding: {{descriptionStyle.mobilePadding.top.value}}px {{descriptionStyle.mobilePadding.right.value}}px  {{descriptionStyle.mobilePadding.bottom.value}}px {{descriptionStyle.mobilePadding.left.value}}px;\n                color: {{descriptionStyle.color}};\n                font-size: {{descriptionStyle.mobileFontSize}}px;\n                text-align: {{descriptionStyle.alignment.horizontal}};\n            }\n\n            @media screen and (min-width: 1024px) {\n                #widget-accordion_{{_.id}} .custom-accordion__description {\n                    padding: {{descriptionStyle.padding.top.value}}px {{descriptionStyle.padding.right.value}}px {{descriptionStyle.padding.bottom.value}}px {{descriptionStyle.padding.left.value}}px;\n                    font-size: {{descriptionStyle.fontSize}}px;\n                }\n            }\n        {{/all}}\n    </style>\n\n    {{~inject \"AccordionWidgetThis\" this ~}}\n    {{~inject \"AccordionWidgetStyle\" headerStyle ~}}\n    {{~inject \"AccordionItem\" accordionItems ~}}\n\n    <script>\n        var jsContext = JSON.parse({{jsContext}});\n        console.log('AccordionWidgetThis', jsContext.AccordionWidgetThis);\n        console.log('AccordionWidgetStyle', jsContext.AccordionWidgetStyle);\n        console.log('AccordionItem', jsContext.AccordionItem);\n    </script>\n<script>\n    let url = 'https://api.bigcommerce.com/stores/2hrfq2xy1y/v3/storefront/api-token';\n\n    let options = {\n        method: 'POST',\n        headers: {\n            Accept: 'application/json',\n            'Content-Type': 'application/json',\n            'X-Auth-Token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly9zdG9yZS0yaHJmcTJ4eTF5Lm15YmlnY29tbWVyY2UuY29tIl0sImVhdCI6MTcwNjM1ODUzNywiaWF0IjoxNzA2MTg1NzM3LCJpc3MiOiJCQyIsInNpZCI6MTAwMzEyMjY4MSwic3ViIjoiQkMiLCJzdWJfdHlwZSI6MCwidG9rZW5fdHlwZSI6MX0.PzwWc-uHX2qm4kbeTUuRgGSvfwvGYHE27WfCslQCp0cHAlBu8jTXgLuX137PM-9u7hLdzu1hkQq1-VT0S4gqNA'\n        },\n        body: '{\"allowed_cors_origins\":[\"https://testpartnersandbox.mybigcommerce.com/\"],\"channel_id\":1,\"expires_at\":1885635176}'\n    };\n\n    fetch(url, options)\n        .then(res => res.json())\n        .then(json => console.log(json))\n        .catch(err => console.error('error:' + err));\n</script>\n{{/or}}\n",
+  "schema": [
+    {
+      "type": "tab",
+      "label": "Heading settings",
+      "sections": [
+        {
+          "label": "Accordion settings",
+          "settings": [
+            {
+              "id": "accordionType",
+              "type": "select",
+              "label": "Accordion type",
+              "typeMeta": {
+                "selectOptions": [
+                  {
+                    "label": "Multiple",
+                    "value": "multiple"
+                  },
+                  {
+                    "label": "Single",
+                    "value": "single"
+                  }
+                ]
+              },
+              "default": "single"
+            },
+            {
+              "type": "boolean",
+              "label": "Accordion item border",
+              "id": "enableBorder",
+              "default": false
+            },
+            {
+              "type": "color",
+              "label": "Border color",
+              "id": "borderColor",
+              "default": "rgba(32,32,32,1)",
+              "conditional": {
+                "key": "enableBorder",
+                "operator": "IN",
+                "value": [
+                  "true",
+                  true
+                ]
+              }
+            },
+            {
+              "type": "boolean",
+              "label": "Set section Max. width",
+              "id": "enableMaxWidth",
+              "default": false
+            },
+            {
+              "type": "number",
+              "label": "Section max width (px)",
+              "id": "sectionMaxWith",
+              "default": {
+                "value": 998,
+                "type": "px"
+              },
+              "typeMeta": {
+                "parseType": "integer"
+              },
+              "conditional": {
+                "key": "enableMaxWidth",
+                "operator": "IN",
+                "value": [
+                  "true",
+                  true
+                ]
+              }
+            },
+            {
+              "type": "boolean",
+              "label": "Set section indent",
+              "id": "enableIndent",
+              "default": false
+            },
+            {
+              "type": "boxModel",
+              "label": "Section padding",
+              "id": "sectionPadding",
+              "default": {
+                "top": {
+                  "value": "100",
+                  "type": "px"
+                },
+                "right": {
+                  "value": "0",
+                  "type": "px"
+                },
+                "bottom": {
+                  "value": "100",
+                  "type": "px"
+                },
+                "left": {
+                  "value": "0",
+                  "type": "px"
+                }
+              },
+              "conditional": {
+                "key": "enableIndent",
+                "operator": "IN",
+                "value": [
+                  "true",
+                  true
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "settings": [
+            {
+              "type": "element",
+              "label": "Section heading style",
+              "id": "headerStyle",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "show"
+                  },
+                  "advanced": {
+                    "label": "Heading style",
+                    "settings": [
+                      {
+                        "type": "typography",
+                        "label": "Heading style",
+                        "id": "textStyle",
+                        "default": "default"
+                      },
+                      {
+                        "id": "tagType",
+                        "type": "select",
+                        "label": "Heading type",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "H1",
+                              "value": "h1"
+                            },
+                            {
+                              "label": "H2",
+                              "value": "h2"
+                            },
+                            {
+                              "label": "H3",
+                              "value": "h3"
+                            },
+                            {
+                              "label": "H4",
+                              "value": "h4"
+                            }
+                          ]
+                        },
+                        "default": "h2",
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font family",
+                        "id": "fontFamily",
+                        "default": "inherit",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Theme Default",
+                              "value": "inherit"
+                            },
+                            {
+                              "label": "Arial",
+                              "value": "Arial, sans-serif"
+                            },
+                            {
+                              "label": "Tahoma",
+                              "value": "Tahoma, sans-serif"
+                            },
+                            {
+                              "label": "Verdana",
+                              "value": "Verdana, sans-serif"
+                            },
+                            {
+                              "label": "Lucida",
+                              "value": "Lucida, sans-serif"
+                            },
+                            {
+                              "label": "Times New Roman",
+                              "value": "Times New Roman, serif"
+                            },
+                            {
+                              "label": "Courier",
+                              "value": "Courier, serif"
+                            },
+                            {
+                              "label": "Georgia",
+                              "value": "Georgia, serif"
+                            },
+                            {
+                              "label": "Palatino",
+                              "value": "Palatino, serif"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "select",
+                        "label": "Font weight",
+                        "id": "fontWeight",
+                        "default": "400",
+                        "typeMeta": {
+                          "selectOptions": [
+                            {
+                              "label": "Thin",
+                              "value": "100"
+                            },
+                            {
+                              "label": "Extra Light (Ultra Light)",
+                              "value": "200"
+                            },
+                            {
+                              "label": "Light",
+                              "value": "300"
+                            },
+                            {
+                              "label": "Normal",
+                              "value": "400"
+                            },
+                            {
+                              "label": "Medium",
+                              "value": "500"
+                            },
+                            {
+                              "label": "Semi Bold (Demi Bold)",
+                              "value": "600"
+                            },
+                            {
+                              "label": "Bold",
+                              "value": "700"
+                            },
+                            {
+                              "label": "Extra Bold (Ultra Bold)",
+                              "value": "800"
+                            },
+                            {
+                              "label": "Black (Heavy)",
+                              "value": "900"
+                            }
+                          ]
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "color",
+                        "label": "Color",
+                        "id": "color",
+                        "default": "rgba(32,32,32,1)",
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "number",
+                        "label": "Font size",
+                        "id": "fontSize",
+                        "default": {
+                          "value": 36,
+                          "type": "px"
+                        },
+                        "typeMeta": {
+                          "parseType": "integer"
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "number",
+                        "label": "Mobile font size",
+                        "id": "mobileFontSize",
+                        "default": {
+                          "value": 24,
+                          "type": "px"
+                        },
+                        "typeMeta": {
+                          "parseType": "integer"
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "alignment",
+                        "type": "alignment",
+                        "label": "Alignment",
+                        "default": {
+                          "horizontal": "center"
+                        },
+                        "typeMeta": {
+                          "display": "horizontal"
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "boxModel",
+                        "label": "Padding",
+                        "id": "padding",
+                        "default": {
+                          "top": {
+                            "value": "40",
+                            "type": "px"
+                          },
+                          "right": {
+                            "value": "0",
+                            "type": "px"
+                          },
+                          "bottom": {
+                            "value": "30",
+                            "type": "px"
+                          },
+                          "left": {
+                            "value": "0",
+                            "type": "px"
+                          }
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "boxModel",
+                        "label": "Mobile padding",
+                        "id": "mobilePadding",
+                        "default": {
+                          "top": {
+                            "value": "20",
+                            "type": "px"
+                          },
+                          "right": {
+                            "value": "0",
+                            "type": "px"
+                          },
+                          "bottom": {
+                            "value": "10",
+                            "type": "px"
+                          },
+                          "left": {
+                            "value": "0",
+                            "type": "px"
+                          }
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "heading",
+              "label": "Section heading",
+              "default": "Section heading placeholder"
+            },
+            {
+              "type": "element",
+              "label": "Section description style",
+              "id": "descriptionStyle",
+              "typeMeta": {
+                "controls": {
+                  "visibility": {
+                    "default": "show"
+                  },
+                  "advanced": {
+                    "label": "Description style",
+                    "settings": [
+                      {
+                        "type": "typography",
+                        "label": "Description style",
+                        "id": "textStyle",
+                        "default": "default"
+                      },
+                      {
+                        "type": "color",
+                        "label": "Color",
+                        "id": "color",
+                        "default": "rgba(32,32,32,1)",
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "range",
+                        "label": "Font size",
+                        "id": "fontSize",
+                        "default": 14,
+                        "typeMeta": {
+                          "rangeValues": {
+                            "min": 10,
+                            "max": 22,
+                            "step": 1,
+                            "unit": "px"
+                          }
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "range",
+                        "label": "Mobile font size",
+                        "id": "mobileFontSize",
+                        "default": 14,
+                        "typeMeta": {
+                          "rangeValues": {
+                            "min": 10,
+                            "max": 22,
+                            "step": 1,
+                            "unit": "px"
+                          }
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "alignment",
+                        "type": "alignment",
+                        "label": "Alignment",
+                        "default": {
+                          "horizontal": "center"
+                        },
+                        "typeMeta": {
+                          "display": "horizontal"
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "boxModel",
+                        "label": "Padding",
+                        "id": "padding",
+                        "default": {
+                          "top": {
+                            "value": "40",
+                            "type": "px"
+                          },
+                          "right": {
+                            "value": "0",
+                            "type": "px"
+                          },
+                          "bottom": {
+                            "value": "30",
+                            "type": "px"
+                          },
+                          "left": {
+                            "value": "0",
+                            "type": "px"
+                          }
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "boxModel",
+                        "label": "Mobile padding",
+                        "id": "mobilePadding",
+                        "default": {
+                          "top": {
+                            "value": "20",
+                            "type": "px"
+                          },
+                          "right": {
+                            "value": "0",
+                            "type": "px"
+                          },
+                          "bottom": {
+                            "value": "10",
+                            "type": "px"
+                          },
+                          "left": {
+                            "value": "0",
+                            "type": "px"
+                          }
+                        },
+                        "conditional": {
+                          "key": "textStyle",
+                          "operator": "IN",
+                          "value": [
+                            "custom"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "description",
+              "label": "Section Description",
+              "default": "<b>Lorem ipsum dolor</b> <i>sit amet</i>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "id": "accordionItems",
+      "entryLabel": "accordion",
+      "label": "Accordion Item",
+      "defaultCount": 4,
+      "thumbnail": "text",
+      "schema": [
+        {
+          "type": "tab",
+          "label": "Accordion Item",
+          "sections": [
+            {
+              "settings": [
+                {
+                  "type": "element",
+                  "label": "Accordion heading",
+                  "id": "headerStyle",
+                  "typeMeta": {
+                    "controls": {
+                      "visibility": {
+                        "default": "show"
+                      },
+                      "advanced": {
+                        "label": "Title style",
+                        "settings": [
+                          {
+                            "type": "typography",
+                            "label": "Title style",
+                            "id": "textStyle",
+                            "default": "default"
+                          },
+                          {
+                            "type": "color",
+                            "label": "Color",
+                            "id": "color",
+                            "default": "rgba(32,32,32,1)",
+                            "conditional": {
+                              "key": "textStyle",
+                              "operator": "IN",
+                              "value": [
+                                "custom"
+                              ]
+                            }
+                          },
+                          {
+                            "type": "range",
+                            "label": "Font size",
+                            "id": "fontSize",
+                            "default": 16,
+                            "typeMeta": {
+                              "rangeValues": {
+                                "min": 14,
+                                "max": 32,
+                                "step": 1,
+                                "unit": "px"
+                              }
+                            },
+                            "conditional": {
+                              "key": "textStyle",
+                              "operator": "IN",
+                              "value": [
+                                "custom"
+                              ]
+                            }
+                          },
+                          {
+                            "id": "alignment",
+                            "type": "alignment",
+                            "label": "Alignment",
+                            "default": {
+                              "horizontal": "center"
+                            },
+                            "typeMeta": {
+                              "display": "horizontal"
+                            },
+                            "conditional": {
+                              "key": "textStyle",
+                              "operator": "IN",
+                              "value": [
+                                "custom"
+                              ]
+                            }
+                          },
+                          {
+                            "type": "boxModel",
+                            "label": "Padding",
+                            "id": "padding",
+                            "default": {
+                              "top": {
+                                "value": "40",
+                                "type": "px"
+                              },
+                              "right": {
+                                "value": "0",
+                                "type": "px"
+                              },
+                              "bottom": {
+                                "value": "30",
+                                "type": "px"
+                              },
+                              "left": {
+                                "value": "0",
+                                "type": "px"
+                              }
+                            },
+                            "conditional": {
+                              "key": "textStyle",
+                              "operator": "IN",
+                              "value": [
+                                "custom"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "heading",
+                  "type": "input",
+                  "label": "Heading",
+                  "default": "Accordion heading placeholder"
+                },
+                {
+                  "type": "element",
+                  "label": "Accordion content",
+                  "id": "contentStyle",
+                  "typeMeta": {
+                    "controls": {
+                      "visibility": {
+                        "default": "show"
+                      },
+                      "advanced": {
+                        "label": "Content style",
+                        "settings": [
+                          {
+                            "type": "typography",
+                            "label": "Content style",
+                            "id": "textStyle",
+                            "default": "default"
+                          },
+                          {
+                            "type": "range",
+                            "label": "Font size",
+                            "id": "fontSize",
+                            "default": 14,
+                            "typeMeta": {
+                              "rangeValues": {
+                                "min": 10,
+                                "max": 22,
+                                "step": 1,
+                                "unit": "px"
+                              }
+                            },
+                            "conditional": {
+                              "key": "textStyle",
+                              "operator": "IN",
+                              "value": [
+                                "custom"
+                              ]
+                            }
+                          },
+                          {
+                            "id": "alignment",
+                            "type": "alignment",
+                            "label": "Alignment",
+                            "default": {
+                              "horizontal": "center"
+                            },
+                            "typeMeta": {
+                              "display": "horizontal"
+                            },
+                            "conditional": {
+                              "key": "textStyle",
+                              "operator": "IN",
+                              "value": [
+                                "custom"
+                              ]
+                            }
+                          },
+                          {
+                            "type": "boxModel",
+                            "label": "Padding",
+                            "id": "padding",
+                            "default": {
+                              "top": {
+                                "value": "40",
+                                "type": "px"
+                              },
+                              "right": {
+                                "value": "0",
+                                "type": "px"
+                              },
+                              "bottom": {
+                                "value": "30",
+                                "type": "px"
+                              },
+                              "left": {
+                                "value": "0",
+                                "type": "px"
+                              }
+                            },
+                            "conditional": {
+                              "key": "textStyle",
+                              "operator": "IN",
+                              "value": [
+                                "custom"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "content",
+                  "type": "text",
+                  "label": "Content",
+                  "default": "<p><b>Lorem ipsum dolor</b> <i>sit amet</i>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

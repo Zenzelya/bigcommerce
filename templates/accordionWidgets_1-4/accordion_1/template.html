@@ -1,0 +1,37 @@
+{{#or heading description (length accordion_items)}}
+    <div class="widget-custom-accordion">
+        {{#or heading description}}
+            <header class="custom-accordion__header">
+                {{#if heading}}
+                    <h1 class="custom-accordion__heading">
+                        {{{heading}}}
+                    </h1>
+                {{/if}}
+                {{#if description}}
+                    <p class="custom-accordion__description">{{{description}}}</p>
+                {{/if}}
+            </header>
+        {{/or}}
+
+        {{#if (length accordion_items)}}
+            <div class="custom-accordion js-toggle-container" data-accordion-mode="single">
+                {{#each accordion_items}}
+                    {{#all heading content}}
+                        <div class="custom-accordion__item js-toggle-item">
+                            <button class="custom-accordion__item-toggler js-toggle-button" aria-label="Open accordion">
+                                {{{heading}}}
+                            </button>
+                            <div class="custom-accordion__item-content js-toggle-content">
+                                {{{content}}}
+                            </div>
+                        </div>
+                    {{else}}
+                        {{#if heading}}
+                            <h3 class="custom-accordion__item-heading">{{{heading}}}</h3>
+                        {{/if}}
+                    {{/all}}
+                {{/each}}
+            </div>
+        {{/if}}
+    </div>
+{{/or}}
