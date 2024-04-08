@@ -53,7 +53,8 @@ const pageClasses = {
 };
 
 const customClasses = {
-    'pages/custom/page/test-api': () => import('./theme/customPages/test-api')
+    'pages/custom/page/test-api': () => import('./theme/customPages/test-api'),
+    'pages/custom/page/bulk-order': () => import('./theme/customPages/bulk-order'),
 };
 
 /**

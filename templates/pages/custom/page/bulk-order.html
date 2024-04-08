@@ -1,0 +1,21 @@
+{{~inject 'customer_group_name' customer_group_name}}
+{{inject 'shopperId' customer.id}}
+{{~inject 'secureBaseUrl' secure_base_url}}
+{{~inject 'cartId' cart_id}}
+{{#partial "page"}}
+{{~inject 'page.content' page.content}}
+<div id="page-content" style="display: none">{{{page.content}}}</div>
+<div id="bulk-products"></div>
+<div id="bulk-total">
+    <p class="">
+        <span>Total cost:</span>
+        <span id="priceTotal">0</span>
+    </p>
+    <button id="add-bulk-cart" class="button--primary">Add to cart</button>
+</div>
+<script>
+    var jsContext = JSON.parse({{jsContext}});
+    console.log('jsContext', jsContext);
+</script>
+{{/partial}}
+{{> layout/base}}

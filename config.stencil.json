@@ -1,0 +1,14 @@
+{
+  "customLayouts": {
+    "accessToken": "ojnvw7ezbm78oi5441g65wfruvo7wr",
+    "brand": {},
+    "category": {},
+    "page": {
+      "test-api.html": "/test-api",
+      "bulk-order.html": "/bulk-order"
+    },
+    "product": {}
+  },
+  "normalStoreUrl": "https://testcomm-p9.mybigcommerce.com/",
+  "port": 3000
+}
