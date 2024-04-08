@@ -1,0 +1,37 @@
+{{#partial "page"}}
+{{~inject 'page.content' page.content}}
+{{inject 'customerID' customer.id}}
+
+<form class="demo-api-form" data-token="{{ settings.storefront_api.token }}">
+    <h2>Demonstration API requests work</h2>
+    <laebl for="api-request-select" class="form-label">Select Request Type</laebl>
+    <select name="api-version" id="api-request-type-select" class="form-select">
+        <option value="getWebsiteData">Get Website Store Data</option>
+        <option value="getProductBySku">Get product by SKU (please enter the SKU in the field below)</option>
+        <option value="getProductInventoryById">Get product inventory by SKU (please enter the SKU in the field below)</option>
+        {{#if customer.id }}
+            <option value="getCustomerInfo">Get Customer Info</option>
+            <option value="getShippingAddress">Ge/home/kelhankin/Documents/bigcommerce/customPagest Shipping Address Info</option>
+        {{else}}
+            <option value="loginAsCustomer">Login as customer</option>
+        {{/if}}
+
+    </select>
+    <input type="text" id="api-form-query-value" class="form-input" style="display: none" placeholder="Enter product SKU">
+    <fieldset id="login-as-customer" class="form-fieldset" style="display: none;">
+        <input type="text" type="email" id="login-email" class="form-input" placeholder="Enter e-mail">
+        <input type="text" type="password" id="login-password" class="form-input" placeholder="Enter password">
+    </fieldset>
+    <input type="submit" value="Submit Form" class="button button--primary" id="submit-api-form-btn">
+</form>
+<div class="demo-api-result-block">
+    <h3>Request result:</h3>
+    <div class="result-block"></div>
+</div>
+<style>
+#login-as-customer input {
+    margin-bottom: 15px;
+}
+</style>
+{{/partial}}
+{{> layout/base}}
